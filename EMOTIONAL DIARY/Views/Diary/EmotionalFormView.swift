@@ -12,6 +12,7 @@ struct EmotionFormView: View {
     @EnvironmentObject var viewModel: EmotionDiaryViewModel
 
     @State private var title = ""
+    @State private var selectedMood: Mood = .happy
     @State private var intensity: Double = 5
     @State private var date = Date()
     @State private var isImportant = false
@@ -43,6 +44,20 @@ struct EmotionFormView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
 
+                // MARK: - Mood picker
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Mood")
+                        .font(.headline)
+
+                    Picker("Mood", selection: $selectedMood) {
+                        ForEach(Mood.allCases) { mood in
+                            Label(mood.title, systemImage: mood.icon)
+                                .tag(mood)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+
                 // MARK: - Intensity
                 VStack(spacing: 16) {
                     Text("Intensity")
@@ -63,8 +78,12 @@ struct EmotionFormView: View {
                 }
 
                 // MARK: - Date
-                DatePicker("Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                    .datePickerStyle(.compact)
+                DatePicker(
+                    "Date",
+                    selection: $date,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+                .datePickerStyle(.compact)
 
                 // MARK: - Important
                 Toggle("Mark as important", isOn: $isImportant)
@@ -80,7 +99,10 @@ struct EmotionFormView: View {
                         .padding()
                         .background(
                             LinearGradient(
-                                colors: [intensityColor, intensityColor.opacity(0.7)],
+                                colors: [
+                                    selectedMood.color,
+                                    selectedMood.color.opacity(0.7)
+                                ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -91,7 +113,6 @@ struct EmotionFormView: View {
                 }
                 .disabled(title.isEmpty)
                 .opacity(title.isEmpty ? 0.4 : 1)
-
             }
             .padding()
         }
@@ -112,6 +133,7 @@ struct EmotionFormView: View {
     private func saveEntry() {
         let entry = EmotionEntry(
             title: title,
+            mood: selectedMood,
             intensity: Int(intensity),
             date: date
         )
@@ -119,4 +141,3 @@ struct EmotionFormView: View {
         dismiss()
     }
 }
-

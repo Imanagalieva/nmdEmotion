@@ -10,47 +10,26 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView {
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-
-            DiaryListView()
-                .tabItem {
-                    Label("Diary", systemImage: "book.fill")
-                }
-
-            SettingView()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
-                }
-                .navigationBarItems(trailing:
-                    NavigationLink {
-                        EmotionFormView()
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title2)
-                    }
-                )
-            TabView {
-
+            NavigationStack {
                 HomeView()
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
-
-                DiaryListView()
-                    .tabItem {
-                        Label("Diary", systemImage: "book.fill")
-                    }
-
-                SettingView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gearshape.fill")
-                    }
+            }
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
             }
 
+            NavigationStack {
+                DiaryListView()
+            }
+            .tabItem {
+                Label("Diary", systemImage: "book.fill")
+            }
 
+            NavigationStack {
+                SettingView()
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gearshape.fill")
+            }
         }
     }
 }

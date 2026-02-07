@@ -12,34 +12,29 @@ struct DiaryRow: View {
 
     var body: some View {
         HStack(spacing: 16) {
+
             Circle()
-                .fill(colorForIntensity(entry.intensity))
+                .fill(entry.mood.color)
                 .frame(width: 12, height: 12)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(entry.title)
                     .font(.headline)
 
-                Text(entry.date.formatted(date: .abbreviated, time: .shortened))
+                Text(entry.date.formatted(date: .abbreviated, time: .omitted))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            Text("\(entry.intensity)/10")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            Text("\(entry.intensity)")
+                .font(.headline)
         }
-        .padding(.vertical, 6)
-    }
-
-    private func colorForIntensity(_ value: Int) -> Color {
-        switch value {
-        case 0...3: return .blue
-        case 4...6: return .orange
-        default: return .red
-        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.secondarySystemBackground))
+        )
     }
 }
-

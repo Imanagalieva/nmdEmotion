@@ -6,41 +6,31 @@
 //
 import SwiftUI
 
-struct EmotionDetailView: View {
+struct EmotionalDetailView: View {
 
     let entry: EmotionEntry
 
     var body: some View {
         VStack(spacing: 24) {
+
+            Image(systemName: entry.mood.icon)
+                .font(.system(size: 64))
+                .foregroundColor(entry.mood.color)
+
             Text(entry.title)
                 .font(.largeTitle)
-                .bold()
+                .fontWeight(.bold)
 
             Text(entry.date.formatted(date: .long, time: .shortened))
                 .foregroundColor(.secondary)
 
-            VStack(spacing: 12) {
-                Text("Intensity")
-                    .font(.headline)
-
-                Text("\(entry.intensity)/10")
-                    .font(.system(size: 48, weight: .bold))
-                    .foregroundColor(colorForIntensity(entry.intensity))
-            }
+            Text("Intensity: \(entry.intensity)")
+                .font(.title2)
 
             Spacer()
         }
         .padding()
         .navigationTitle("Details")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private func colorForIntensity(_ value: Int) -> Color {
-        switch value {
-        case 0...3: return .blue
-        case 4...6: return .orange
-        default: return .red
-        }
     }
 }
 
