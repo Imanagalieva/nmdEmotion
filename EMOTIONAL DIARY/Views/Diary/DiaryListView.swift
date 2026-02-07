@@ -4,7 +4,6 @@
 //
 //  Created by Zumrad on 07.02.2026.
 //
-
 import SwiftUI
 
 struct DiaryListView: View {
@@ -14,30 +13,50 @@ struct DiaryListView: View {
     var body: some View {
         NavigationStack {
             List {
-                if viewModel.entries.isEmpty {
-                    Text("No entries yet 🌱")
-                        .foregroundColor(.secondary)
-                } else {
-                    ForEach(viewModel.entries) { entry in
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(entry.title)
-                                .font(.headline)
-
-                            Text(entry.date, style: .date)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                // Today section
+                if !todayEntries.isEmpty {
+                    Section("Today") {
+                        ForEach(todayEntries) { entry in
+                            NavigationLink {
+                                EmotionDetailView(entry: entry)
+                            } label: {
+                                DiaryRow(entry: entry)
+                            }
                         }
-                        .padding(.vertical, 4)
+                        .onDelete(perform: viewModel.deleteEntry)
                     }
-                    .onDelete(perform: viewModel.deleteEntry)
+                }
+
+                // Earlier section
+                if !earlierEntries.isEmpty {
+                    Section("Earlier") {
+                        ForEach(earlierEntries) { entry in
+                            NavigationLink {
+                                EmotionDetailView(entry: entry)
+                            } label: {
+                                DiaryRow(entry: entry)
+                            }
+                        }
+                        .onDelete(perform: viewModel.deleteEntry)
+                    }
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationTitle("Diary")
         }
     }
-}
 
-#Preview {
-    DiaryListView()
-        .environmentObject(EmotionDiaryViewModel())
+    // MARK: - Helpers
+
+    private var todayEntries: [EmotionEntry] {
+        viewModel.entries.filter {
+            Calendar.current.isDateInToday($0.date)
+        }
+    }
+
+    private var earlierEntries: [EmotionEntry] {
+        viewModel.entries.filter {
+            !Calendar.current.isDateInToday($0.date)
+        }
+    }
 }
