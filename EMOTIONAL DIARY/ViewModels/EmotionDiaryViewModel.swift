@@ -37,9 +37,20 @@ final class EmotionDiaryViewModel: ObservableObject {
     // Temporary data (for UI preview & demo)
     private func loadMockData() {
         entries = [
-            EmotionEntry(title: "Happy", intensity: 8, date: Date()),
-            EmotionEntry(title: "Sad", intensity: 3, date: Date())
+            EmotionEntry(
+                title: "Happy",
+                mood: .happy,
+                intensity: 8,
+                date: Date()
+            ),
+            EmotionEntry(
+                title: "Sad",
+                mood: .sad,
+                intensity: 3,
+                date: Date()
+            )
         ]
     }
+
 }
 
