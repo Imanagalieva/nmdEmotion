@@ -32,6 +32,24 @@ struct MainTabView: View {
                             .font(.title2)
                     }
                 )
+            TabView {
+
+                HomeView()
+                    .tabItem {
+                        Label("Home", systemImage: "house.fill")
+                    }
+
+                DiaryListView()
+                    .tabItem {
+                        Label("Diary", systemImage: "book.fill")
+                    }
+
+                SettingView()
+                    .tabItem {
+                        Label("Settings", systemImage: "gearshape.fill")
+                    }
+            }
+
 
         }
     }

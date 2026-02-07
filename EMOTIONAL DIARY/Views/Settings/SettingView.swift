@@ -8,27 +8,47 @@ import SwiftUI
 
 struct SettingView: View {
 
-    @AppStorage("darkMode") private var darkMode = false
+    @AppStorage("darkModeEnabled") private var darkModeEnabled = false
+    @AppStorage("dailyReminder") private var dailyReminder = true
 
     var body: some View {
         NavigationStack {
             Form {
+
+                // MARK: - Appearance
                 Section(header: Text("Appearance")) {
-                    Toggle("Dark Mode", isOn: $darkMode)
+                    Toggle(isOn: $darkModeEnabled) {
+                        Label("Dark Mode", systemImage: "moon.fill")
+                    }
                 }
 
-                Section(header: Text("About")) {
-                    Text("Emotional Diary")
-                    Text("Version 1.0")
-                        .foregroundColor(.secondary)
+                // MARK: - Notifications
+                Section(header: Text("Reminders")) {
+                    Toggle(isOn: $dailyReminder) {
+                        Label("Daily Mood Reminder", systemImage: "bell.fill")
+                    }
+                }
+
+                // MARK: - About
+                Section {
+                    HStack {
+                        Text("Version")
+                        Spacer()
+                        Text("1.0")
+                            .foregroundColor(.secondary)
+                    }
+
+                    HStack {
+                        Text("Developer")
+                        Spacer()
+                        Text("Zumrad")
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
             .navigationTitle("Settings")
         }
+        .preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
-}
-
-#Preview {
-    SettingView()
 }
 
