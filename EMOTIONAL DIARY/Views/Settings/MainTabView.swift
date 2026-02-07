@@ -24,6 +24,15 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
+                .navigationBarItems(trailing:
+                    NavigationLink {
+                        EmotionFormView()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                    }
+                )
+
         }
     }
 }
