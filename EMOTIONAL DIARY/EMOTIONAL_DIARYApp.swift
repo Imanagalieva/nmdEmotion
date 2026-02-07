@@ -4,14 +4,16 @@
 //
 //  Created by Zumrad on 07.02.2026.
 //
-
-import SwiftUI
-
+import SwiftUI 
 @main
-struct EMOTIONAL_DIARYApp: App {
+struct emotionalDiaryyApp: App {
+
+    @StateObject private var viewModel = EmotionDiaryViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
+                .environmentObject(viewModel)
         }
     }
 }
